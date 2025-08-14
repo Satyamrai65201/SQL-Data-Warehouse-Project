@@ -150,3 +150,16 @@ SELECT
 	  END AS CNTRY
   FROM DataWarehouse.bronze.erp_loc_a101
 
+  ----------------------------------------------------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO silver.erp_px_cat_g1v2
+(ID
+,CAT
+,SUBCAT
+,MAINTENANCE)
+
+SELECT ID
+      ,CAT
+      ,SUBCAT
+      ,MAINTENANCE
+  FROM DataWarehouse.bronze.erp_px_cat_g1v2
