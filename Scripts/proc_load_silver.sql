@@ -132,4 +132,21 @@ SELECT
   FROM [DataWarehouse].[bronze].[erp_cust_az12]
 
 
+  -------------------------------------------------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO DataWarehouse.silver.erp_loc_a101(
+CID,
+CNTRY)
+
+SELECT 
+	REPLACE(cid,'-','') as CID
+      ,
+	  
+	  CASE WHEN TRIM(cntry) ='DE' THEN 'Germany'
+	  WHEN TRIM(cntry) IN ('US','USA') THEN 'United States'
+	  WHEN TRIM(cntry) =' ' OR Cntry IS  NULL THEN 'n\a'
+	  ELSE TRIM(cntry)
+	  END AS CNTRY
+  FROM DataWarehouse.bronze.erp_loc_a101
 
