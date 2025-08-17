@@ -1,0 +1,208 @@
+A data warehouse is like a giant digital library where a company stores all its important data from different places in one organized location.
+
+
+
+In simple terms:
+It collects data from different systems (like sales, finance, customer service).
+
+It stores the data in a structured way.
+
+It helps people analyze the data to make better business decisions.
+
+-----------------------------------------------------------------------------
+| Feature                       | **Database**                                      | **Data Warehouse**                                 |
+| ----------------------------- | ------------------------------------------------- | -------------------------------------------------- |
+| **Purpose**                   | Stores current, operational data (day-to-day use) | Stores historical data for analysis and reporting  |
+| **Use Case**                  | For apps like banking, e-commerce, etc.           | For business intelligence, data analysis           |
+| **Data Type**                 | Real-time or current data                         | Historical, summarized, and integrated data        |
+| **Data Sources**              | Usually one source/system                         | Combines data from many sources                    |
+| **Performance Optimized For** | Fast reads/writes (insert, update)                | Fast reads and complex queries (reporting, trends) |
+| **Data Structure**            | Normalized (many small, related tables)           | Denormalized (fewer, larger tables for speed)      |
+| **Examples**                  | MySQL, PostgreSQL, Oracle                         | Amazon Redshift, Snowflake, Google BigQuery        |
+
+
+
+
+ETL:
+Extract Transform Load 
+
+Eaxtract the data from the difference sources and apply transformation on to it and load in the data warehouse.
+ and after that data is being  used to generate the  reports.
+ 
+
+
+**Data Warehouse**: Stores clean and organized data for reports and analysis.
+**Data Lake**: Stores all types of raw data (text, images, logs) in one place.
+**Data Lakehouse**: Combines both — stores all data types and also supports easy analysis.
+
+ Data Mesh: A way to manage data by giving each team ownership of their own data, like mini-warehouses.
+ 
+ 
+ 
+ Question we need to ask about  to know about the source of the data .
+ 
+A. Business context and Ownership
+
+ 1. Who owns the data.
+ 2.what business process it supports.
+ 3.System and data documention.
+ 4.Data model & Data catalog.
+ 
+B.Architecture and Technology  Stack.
+ 1.  How the data store(ex-> sql server , oracle, aws , azure...)
+ 2.What are the integration capabilites ? (API, Kafka, File Extract,  Direct DB...)
+ 
+C. Extract and Load
+ 1.Incremental Load or Full Load
+ 2.Data scope & Historical  Needs
+ 3.What are the expected size of the extracts?
+ 4.Are there any data volume limitaion ?
+ 5.How to Avoid  impacting  the source systems  performance?
+ 6.Authentication and Authorization (Tokens, SSH Keys, VPN, IP whitelisting...)?
+ 
+ 
+ 
+ 
+ DDL-> DAta definitio language  define the structure  of the database table.
+ 
+ 
+ 
+ ** consult the technical experts of the source system to understand its  metadata.
+ 
+ **DATa Profiling -> Explore the  data to indentify  column  names  and data types.
+ 
+ 
+ 
+ 
+ TRUNCATE--> Quickly delete  all rows from the table , resetting  it to an empty  state
+ 
+ ** ADD PRINT  to track the execution and  debug issues  and understand the flow
+ ** ADD TRY CATCH  : Ensure the error handling , Data integrity , and  issue  logging  for the  easier  debugging 
+ ** SQL RUn the TRy block , and if it is failed , its run the catch block to handle the error .
+ 
+ ** TRACK ETL DURATION : HELps to identify bottleneck , optimised  performance, monitor trend , defect issues
+ DATEDIFF:==> Calculate  the difference between  two dates , return  days ,months , or years 
+ 
+ 
+ 
+ 
+METADATA:---> Extra columns added  by data  engineers that do not originate from the source data .
+
+
+create_date: the record's load timestamp.
+update _date: The record's last update  timestamp.
+source _system: The origin system of the record .
+file_location: The file source  of the data . 
+
+
+ Silver layer:
+ --Check  For NUlls or Duplicates in Primary Key 
+-- Exceptation : No result 
+
+1.Row_Number(): Assign a unique number to each row in a result set based on the defined  order.
+
+Quality Check :
+Check for the unwanted  spaces in string  values
+ ---check for the unwanted spaces
+ -- Expectation : No result 
+
+2.TRIM(): Removed the leading and trailing space from a string 
+
+Quality check :
+Check the consistency of values in the low  cardinality columns 
+ --- DATA Normalisation or Standardization  &  consistency 
+
+
+** In our data warehouse  we aim  to store clear  and meaningful values  rather than using abbriviated values/
+** We use N/A as default  f0r the missing value 
+
+APPLY UPPER()  just in case mixed  -case values appear  later in the column 
+
+SUBSTRING()= Extracts a specific  part of a string value 
+
+ISNULL --> replace the null value with the specific null value ,
+
+LEAD()--> Access value from the next row within the a window 
+
+
+Derived column --> create a new columns  based on the calculations  or transformation of existing one 
+
+Data Enrichment  -->  add new , relevant  data  to enhance  the dataset  for the analysis 
+
+*** Negative number and zero can not be cast as  date 
+
+NULLIF --> Return NULL if two given values are equal ; otherwise , it return the first expression .
+
+
+DATE :==> Length of the date should be 8 
+
+Business Rule ==> sales = Quantity * Price --> negative , zero or NUll not allowed 
+
+RULES :
+1.if sales is negative , zero or null , derive it using quantity and price.
+2.if Price  is zero  or null , calculate  it using  sales  and quantity.
+3.if price is negative convert it to a  positive value.
+
+**ABS() --> return the absulte function of a number  
+
+ 
+ 
+ -=========================================================================================
+ A data model is a blueprint for how data is structured and organized. It defines the entities, attributes, and relationships within a system. 
+ There are three main types of data models: conceptual, logical, and physical data models.
+ 
+ 
+ ========================================================================================
+ DAta models:
+ 1.star scehmeas
+ 2. snowflake schema 
+ 
+ Both Star Schema and Snowflake Schema are types of data warehouse schemas,
+ used to organize and structure data in a way that optimizes querying and analysis,
+ particularly in business intelligence and reporting.
+ 
+
+1. Star Schema – Data is stored in one big central fact table (numbers like sales, revenue) 
+connected directly to simple dimension tables (like date, product, customer). Easy to understand, like a star shape.
+2. Snowflake Schema – Similar to star schema but dimension tables are further broken into smaller 
+related tables (like product → category → brand). Looks like a snowflake, more normalized and complex.
+==========================================================================================================================
+**We are using star schema because it is simple and easy to create and good for reporting purpose .
+--------------------------------------------------------------------------------------
+Fact Table → Stores the events/transactions with numbers. Example: “100 mobiles sold for $50,000 on 15-Aug.”
+
+Think of it as the report card of actions (sales, revenue, cost).
+
+Dimension Table → Stores the descriptions/details that give meaning to those numbers. Example: Product name = Mobile, Date = 15-Aug, Customer = John.
+
+Think of it as the labels and context (who, what, when, where, how).
+
+Together: Facts = the numbers, Dimensions = the story behind the numbers.
+============================================================================================================================
+*** Dimension ---->content  Descriptive information  that give context to your  data .
+----------------------------------------------------------------------------------------------------------------------------
+***Fact ---->Quantative informtaion that represent events . 
+=============================================================================================================================
+
+****NULLS often come from joined tables ... NULL will appear  when sql find no match .
+=======================================================================================================================
+****COALESCE returns the first non-NULL value from the list.
+SELECT COALESCE(NULL, NULL, 'SQL', 'Server');
+-- Output: 'SQL'
+--------------------------------------------------------------------
+
+Surrogate kEY :System -generated unique identifer  assigned  to each record  in a table.
+===========================================================================================
+
+prod info table 
+If the end date is null then it is current info of the product 
+===============================================================================================
+
+Building facts :
+USE the dimension  surrogate keys instead of of IDs to easily connect the  fact with the dimension.
+
+
+=============================================================================================================================
+In star schema Data model:
+in star schema data model the relationships  between the fact and dimension is one to many (1:N)
+==================
