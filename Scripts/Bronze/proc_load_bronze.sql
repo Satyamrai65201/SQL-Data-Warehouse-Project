@@ -49,11 +49,11 @@ BEGIN
 		PRINT '>> -------------';
 		PRINT'';
 		SET @start_time = GETDATE();
-		PRINT'=====>Truncating Table :bronze.crm_prod_info';
-		TRUNCATE  TABLE bronze.crm_prod_info;
+		PRINT'=====>Truncating Table :bronze.crm_prd_info';
+		TRUNCATE  TABLE bronze.crm_prd_info;
 		PRINT'';
-		PRINT'=====>Inserting Data  into : bronze.crm_prod_info';
-		BULK INSERT bronze.crm_prod_info
+		PRINT'=====>Inserting Data  into : bronze.crm_prd_info';
+		BULK INSERT bronze.crm_prd_info
 		from 'C:\Users\SATYAM SINGH\Desktop\sql-data-warehouse-project\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
 		WITH (
 		FIRSTROW=2,
