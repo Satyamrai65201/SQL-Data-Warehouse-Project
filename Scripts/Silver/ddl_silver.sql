@@ -42,17 +42,17 @@ PRINT 'Created table silver.crm_cust_info';
 GO
 
 -- ========== CRM Product Info ==========
-IF OBJECT_ID('silver.crm_prod_info', 'U') IS NOT NULL
+IF OBJECT_ID('silver.crm_prd_info', 'U') IS NOT NULL
 BEGIN
-    DROP TABLE silver.crm_prod_info;
-    PRINT 'Dropped table silver.crm_prod_info';
+    DROP TABLE silver.crm_prd_info;
+    PRINT 'Dropped table silver.crm_prd_info';
 END
 GO
 
-PRINT 'Creating table silver.crm_prod_info';
+PRINT 'Creating table silver.crm_prd_info';
 GO
 
-CREATE TABLE silver.crm_prod_info (
+CREATE TABLE silver.crm_prd_info (
     prd_id          INT,
     cat_id          NVARCHAR(50),
     prd_key         NVARCHAR(50),
@@ -65,7 +65,7 @@ CREATE TABLE silver.crm_prod_info (
 );
 GO
 
-PRINT 'Created table silver.crm_prod_info';
+PRINT 'Created table silver.crm_prd_info';
 GO
 
 -- ========== CRM Sales Details ==========
